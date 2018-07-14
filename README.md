@@ -1,4 +1,4 @@
-QtWeb
-=====
+vilqy browser
+=============
 
-QtWeb Internet Browser
+This browser webkit based and fork of [QtWeb project](http://www.qtweb.net)
