@@ -45,7 +45,11 @@
 #include <QList>
 #include <QObject>
 #include <QHostAddress>
-#include <QHttp>
+
+//qt5_migr
+//#include <QHttp>
+#include <QtHttp>
+// TODO  #include <QNetworkAccessManager>
 
 #include "metainfo.h"
 #include "torrentclient.h"

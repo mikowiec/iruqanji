@@ -47,9 +47,12 @@
 
 #include <QtCore/QMetaEnum>
 #include <QtCore/QSettings>
-#include <QtGui/QFileDialog>
-#include <QtGui/QHeaderView>
-#include <QtGui/QFileIconProvider>
+
+//qt5_migr
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QFileIconProvider>
+
 #include <QtGui/QDesktopServices>
 #include <QMessageBox>
 #include <QtCore/QDebug>

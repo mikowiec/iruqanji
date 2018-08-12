@@ -7,6 +7,9 @@
 #include <QMainWindow>
 #include <QSyntaxHighlighter>
 
+//qt5_migr
+#include <QTextEdit>
+
 class HtmlHighlighter : public QSyntaxHighlighter
 {
   Q_OBJECT

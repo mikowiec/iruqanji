@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 Nikolay Kravets <nikolay.a.kravets@gmail.com>
  * Copyright (C) 2008-2009 Alexei Chaloupov <alexei.chaloupov@gmail.com>
  * Copyright (C) 2007-2008 Benjamin C. Meyer <ben@meyerhome.net>
  *
@@ -50,8 +51,11 @@
 #include "commands.h"
 
 #include <QtGui/QClipboard>
-#include <QtGui/QMenu>
-#include <QtGui/QMessageBox>
+
+//qt5_migr
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMessageBox>
+
 #include <QtGui/QMouseEvent>
 #include <QProgressDialog>
 #include <QFileDialog>
@@ -60,6 +64,8 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QBuffer>
+
+#include <QFtp>  //qt5_migr
 
 
 WebView::WebView(QWidget* parent)   
@@ -248,7 +254,9 @@ void WebView::copyMailtoAddress()
     if (!m_hitResult.isNull() && !m_hitResult.linkUrl().isEmpty())
     {
         if (m_hitResult.linkUrl().scheme() == "mailto")
-            QApplication::clipboard()->setText( m_hitResult.linkUrl().encodedPath() );
+            //qt5_migr
+            //QApplication::clipboard()->setText( m_hitResult.linkUrl().encodedPath() );
+            QApplication::clipboard()->setText( m_hitResult.linkUrl().toEncoded() );
         else
         {
             if (!m_hitResult.linkUrl().scheme().isEmpty())
@@ -342,14 +350,22 @@ void WebView::applyEncoding()
         m_encoding_in_progress = true;
         m_current_encoding = enc;
         m_current_encoding_url = url();
-        QString output = decoder->toUnicode(html.toAscii());
+
+        //qt5_migr
+        //QString output = decoder->toUnicode(html.toAscii());
+        QString output = decoder->toUnicode(html.toLatin1());
+
         mainframe->setHtml(output, mainframe->url());
 
         QList<QWebFrame *> children = mainframe->childFrames();
         foreach(QWebFrame *frame, children)
         {
             html = frame->toHtml();
-            output = decoder->toUnicode(html.toAscii());
+
+            //qt5_migr
+            //output = decoder->toUnicode(html.toAscii());
+            output = decoder->toUnicode(html.toLatin1());
+
             frame->setHtml(output, frame->url());
         }
         m_encoding_in_progress = false;

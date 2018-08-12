@@ -47,7 +47,8 @@ class QFtp;
 class QProgressDialog;
 class QUrlInfo;
 
-#include <QtWebKit/QWebView>
+//qt5_migr
+#include <QtWebKitWidgets/QWebView>
 
 QT_BEGIN_NAMESPACE
 class QAuthenticator;

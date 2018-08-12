@@ -41,7 +41,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>  //qt5_migr
 #include "ui_settings.h"
 
 class SettingsDialog : public QDialog, public Ui_Settings

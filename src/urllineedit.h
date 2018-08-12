@@ -43,8 +43,11 @@
 
 #include <QtCore/QUrl>
 #include <QLabel>
-#include <QtGui/QWidget>
-#include <QtGui/QStyleOptionFrame>
+
+//qt5_migr
+#include <QWidget>
+#include <QStyleOptionFrame>
+
 #include "exlineedit.h"
 
 class WebView;

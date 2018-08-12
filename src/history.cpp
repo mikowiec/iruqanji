@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008-2009 Alexei Chaloupov <alexei.chaloupov@gmail.com>
  * Copyright (C) 2007-2008 Benjamin C. Meyer <ben@meyerhome.net>
+ * Copyright (C) 2018 Nikolay Kravets <nikolay.a.kravets@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,8 +56,10 @@
 #include <QtCore/QtAlgorithms>
 
 #include <QtGui/QClipboard>
-#include <QtGui/QHeaderView>
-#include <QtGui/QStyle>
+
+//qt5_migr
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QStyle>
 
 #include <QtWebKit/QWebHistoryInterface>
 #include <QtWebKit/QWebSettings>
@@ -401,7 +404,10 @@ HistoryModel::HistoryModel(HistoryManager *history, QObject *parent)
 
 void HistoryModel::historyReset()
 {
-    reset();
+    //qt5_migr
+    //reset();
+    beginResetModel();
+    endResetModel();
 }
 
 void HistoryModel::entryAdded()
@@ -814,7 +820,11 @@ QVariant HistoryFilterModel::headerData(int section, Qt::Orientation orientation
 void HistoryFilterModel::sourceReset()
 {
     m_loaded = false;
-    reset();
+
+    //qt5_migr
+    //reset();
+    beginResetModel();
+    endResetModel();
 }
 
 int HistoryFilterModel::rowCount(const QModelIndex &parent) const
@@ -946,7 +956,12 @@ bool HistoryFilterModel::removeRows(int row, int count, const QModelIndex &paren
                 this, SLOT(sourceRowsRemoved(const QModelIndex &, int, int)));
     m_loaded = false;
     if (oldCount - count != rowCount())
-        reset();
+    {
+        //qt5_migr
+        //reset();
+        beginResetModel();
+        endResetModel();
+    }
     return true;
 }
 
@@ -1004,7 +1019,10 @@ QModelIndex HistoryCompletionModel::index(int row, int column, const QModelIndex
     if (row < 0 || row >= rowCount(parent)
         || column < 0 || column >= columnCount(parent))
         return QModelIndex();
-    return createIndex(row, column, 0);
+
+    //qt5_migr
+    //return createIndex(row, column, 0);
+    return createIndex(row, column);
 }
 
 QModelIndex HistoryCompletionModel::parent(const QModelIndex &) const
@@ -1032,12 +1050,18 @@ void HistoryCompletionModel::setSourceModel(QAbstractItemModel *newSourceModel)
                 this, SLOT(sourceReset()));
     }
 
-    reset();
+    //qt5_migr
+    //reset();
+    beginResetModel();
+    endResetModel();
 }
 
 void HistoryCompletionModel::sourceReset()
 {
-    reset();
+    //qt5_migr
+    //reset();
+    beginResetModel();
+    endResetModel();
 }
 
 HistoryTreeModel::HistoryTreeModel(QAbstractItemModel *sourceModel, QObject *parent)
@@ -1152,7 +1176,7 @@ QModelIndex HistoryTreeModel::index(int row, int column, const QModelIndex &pare
         return QModelIndex();
 
     if (!parent.isValid())
-        return createIndex(row, column, 0);
+        return createIndex(row, column);  //qt5_migr
     return createIndex(row, column, parent.row() + 1);
 }
 
@@ -1161,7 +1185,7 @@ QModelIndex HistoryTreeModel::parent(const QModelIndex &index) const
     int offset = index.internalId();
     if (offset == 0 || !index.isValid())
         return QModelIndex();
-    return createIndex(offset - 1, 0, 0);
+    return createIndex(offset - 1, 0);  //qt5_migr
 }
 
 bool HistoryTreeModel::hasChildren(const QModelIndex &parent) const
@@ -1221,14 +1245,20 @@ void HistoryTreeModel::setSourceModel(QAbstractItemModel *newSourceModel)
         connect(sourceModel(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)),
                 this, SLOT(sourceRowsRemoved(const QModelIndex &, int, int)));
     }
-
-    reset();
+    //qt5_migr
+    //reset();
+    beginResetModel();
+    endResetModel();
 }
 
 void HistoryTreeModel::sourceReset()
 {
     m_sourceRowCache.clear();
-    reset();
+
+    //qt5_migr
+    //reset();
+    beginResetModel();
+    endResetModel();
 }
 
 void HistoryTreeModel::sourceRowsInserted(const QModelIndex &parent, int start, int end)
@@ -1236,8 +1266,12 @@ void HistoryTreeModel::sourceRowsInserted(const QModelIndex &parent, int start, 
     Q_UNUSED(parent); // Avoid warnings when compiling release
     Q_ASSERT(!parent.isValid());
     if (start != 0 || start != end) {
+
+        //qt5_migr
+        //reset();
+        beginResetModel();
         m_sourceRowCache.clear();
-        reset();
+        endResetModel();
         return;
     }
 
@@ -1281,8 +1315,11 @@ void HistoryTreeModel::sourceRowsRemoved(const QModelIndex &parent, int start, i
         it = qLowerBound(m_sourceRowCache.begin(), m_sourceRowCache.end(), i);
         // playing it safe
         if (it == m_sourceRowCache.end()) {
+            //qt5_migr
+            //reset();
+            beginResetModel();
             m_sourceRowCache.clear();
-            reset();
+            endResetModel();
             return;
         }
 

@@ -41,7 +41,8 @@
 #ifndef EDITTABLEVIEW_H
 #define EDITTABLEVIEW_H
 
-#include <QtGui/QTableView>
+//qt5_migr
+#include <QtWidgets/QTableView>
 
 class EditTableView : public QTableView
 {

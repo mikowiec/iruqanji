@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2018 Nikolay Kravets <nikolay.a.kravets@gmail.com>
  * Copyright (C) 2008-2009 Alexei Chaloupov <alexei.chaloupov@gmail.com>
  * Copyright (C) 2007-2008 Benjamin C. Meyer <ben@meyerhome.net>
  *
@@ -43,9 +44,11 @@
 #include <QtCore/QSettings>
 #include <QtCore/QUrl>
 
-#include <QtGui/QCompleter>
-#include <QtGui/QMenu>
-#include <QtGui/QStringListModel>
+//qt5_migr
+#include <QtWidgets/QCompleter>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QStringListModel>
+
 #include <QtWebKit/QWebSettings>
 #include "searches.h"
 #include "googlesuggest.h"
@@ -170,31 +173,40 @@ void ToolbarSearch::searchNow()
     }
 
     QUrl url;
+    QUrlQuery urlQuery;  //qt5_migr
     if (inactiveText() == SEARCH_GOOGLE)
     {
         url.setUrl(QLatin1String("http://www.google.com/search"));
-        url.addQueryItem(QLatin1String("q"), searchText);
-        url.addQueryItem(QLatin1String("ie"), QLatin1String("UTF-8"));
-        url.addQueryItem(QLatin1String("oe"), QLatin1String("UTF-8"));
+
+        //qt5_migr
+        urlQuery.addQueryItem(QLatin1String("q"), searchText);
+        urlQuery.addQueryItem(QLatin1String("ie"), QLatin1String("UTF-8"));
+        urlQuery.addQueryItem(QLatin1String("oe"), QLatin1String("UTF-8"));
     }
     else
     if (inactiveText() == SEARCH_CUIL)
     {
         url.setUrl(QLatin1String("http://www.cuil.com/search"));
-        url.addQueryItem(QLatin1String("q"), searchText);
+
+        //qt5_migr
+        urlQuery.addQueryItem(QLatin1String("q"), searchText);
     }
     else
     if (inactiveText() == SEARCH_YAHOO)
     {
         url.setUrl(QLatin1String("http://search.yahoo.com/search"));
-        url.addQueryItem(QLatin1String("p"), searchText);
-        url.addQueryItem(QLatin1String("ei"), QLatin1String("UTF-8"));
+
+        //qt5_migr
+        urlQuery.addQueryItem(QLatin1String("p"), searchText);
+        urlQuery.addQueryItem(QLatin1String("ei"), QLatin1String("UTF-8"));
     }
     else
     if (inactiveText() == SEARCH_BING)
     {
         url.setUrl(QLatin1String("http://www.bing.com/search"));
-        url.addQueryItem(QLatin1String("q"), searchText);
+
+        //qt5_migr
+        urlQuery.addQueryItem(QLatin1String("q"), searchText);
     }
     else
     {
@@ -213,12 +225,16 @@ void ToolbarSearch::searchNow()
         settings.endGroup();
     }
 
-    url.addQueryItem(QLatin1String("client"), QLatin1String("QtWeb"));
+    //qt5_migr
+    urlQuery.addQueryItem(QLatin1String("client"), QLatin1String("QtWeb"));
 
     if (!keyword_provider.isEmpty())
     {
         setInactiveText(keyword_provider);
     }
+
+    //qt5_migr
+    url.setQuery(urlQuery);
 
     emit search(url);
 }

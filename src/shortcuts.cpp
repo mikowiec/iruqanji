@@ -18,8 +18,11 @@
  */
 
 #include "shortcuts.h"
-#include <QtGui/QSortFilterProxyModel>
-#include <QtGui/QHeaderView>
+
+//qt5_migr
+#include <QtCore/QSortFilterProxyModel>
+#include <QtWidgets/QHeaderView>
+
 #include <QSettings>
 #include <QMessageBox>
 

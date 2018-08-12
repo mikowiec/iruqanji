@@ -19,8 +19,11 @@
  */
 
 #include "searches.h"
-#include <QtGui/QSortFilterProxyModel>
-#include <QtGui/QHeaderView>
+
+//qt5_migr
+#include <QtCore/QSortFilterProxyModel>
+#include <QtWidgets/QHeaderView>
+
 #include <QSettings>
 
 SearchesModel::SearchesModel(QObject *parent)
@@ -136,10 +139,11 @@ int SearchesModel::addRow(QString name, QString value)
     if (oldIndex != -1) { // prevent from inserting more than one unique row
         return oldIndex;
     } else {
+        //qt5_migr
+        beginResetModel();
         m_searchProviders->append(pair);
         int index = m_searchProviders->indexOf(pair);
-        beginResetModel();
-        reset();
+        //reset();
         endResetModel();
         return index;
     }
@@ -147,13 +151,17 @@ int SearchesModel::addRow(QString name, QString value)
 
 void SearchesModel::loadDefaultProviders()
 {
+    //qt5_migr
+    beginResetModel();
+
     m_searchProviders->clear();
     m_searchProviders->append(QPair<QString, QString>("Google", "http://www.google.com/search?q="));
     m_searchProviders->append(QPair<QString, QString>("Yahoo", "http://search.yahoo.com/search?p="));
     m_searchProviders->append(QPair<QString, QString>("Bing", "http://www.bing.com/search?q="));
     m_searchProviders->append(QPair<QString, QString>("Cuil", "http://www.cuil.com/search?q="));
-    beginResetModel();
-    reset();
+
+    //qt5_migr
+    //reset();
     endResetModel();
 }
 

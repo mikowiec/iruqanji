@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008-2009 Alexei Chaloupov <alexei.chaloupov@gmail.com>
+ * Copyright (C) 2018 Nikolay Kravets <nikolay.a.kravets@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,13 +24,13 @@
 #include <QMessageBox>
 #include <QApplication>
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     #include <shlobj.h>
 #endif
 
 QString BookmarksImport::mozillaPath()
 {
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
         wchar_t szTemp[MAX_PATH];
     memset(szTemp, 0 , sizeof(szTemp));
     LPITEMIDLIST pidl;
@@ -54,7 +55,7 @@ QString BookmarksImport::mozillaPath()
 
 QString BookmarksImport::ieFavoritesPath()
 {
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
         wchar_t szTemp[MAX_PATH];
     memset(szTemp, 0 , sizeof(szTemp));
     LPITEMIDLIST pidl;
@@ -138,7 +139,7 @@ BookmarkNode *BookmarksImport::importFromIE()
 
         BookmarkNode* root = new BookmarkNode();
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 
         CoInitialize( 0 );
     

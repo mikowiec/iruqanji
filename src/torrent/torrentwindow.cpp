@@ -40,7 +40,11 @@
 **
 ****************************************************************************/
 
-#include <QtGui>
+//qt5_migr
+//#include <QtGui>
+#include <QtWidgets>
+#include <QTreeWidget>
+#include <QItemDelegate>
 
 #include "addtorrentdialog.h"
 #include "torrentwindow.h"

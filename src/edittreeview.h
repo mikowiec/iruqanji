@@ -41,7 +41,8 @@
 #ifndef EDITTREEVIEW_H
 #define EDITTREEVIEW_H
 
-#include <QtGui/QTreeView>
+//qt5_migr
+#include <QtWidgets/QTreeView>
 
 class EditTreeView : public QTreeView
 {

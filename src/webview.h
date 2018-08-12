@@ -48,8 +48,10 @@ class QProgressDialog;
 class QUrlInfo;
 
 #include <QDateTime>
-#include <QtWebKit/QWebView>
-#include <QtWebKit/QWebHitTestResult>
+
+//qt5_migr
+#include <QtWebKitWidgets/QWebView>
+#include <QtWebKitWidgets/QWebHitTestResult>
 
 class WebPage;
 

@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008-2009 Alexei Chaloupov <alexei.chaloupov@gmail.com>
  * Copyright (C) 2007-2008 Benjamin C. Meyer <ben@meyerhome.net>
+ * Copyright (C) 2018 Nikolay Kravets <nikolay.a.kravets@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,12 +50,15 @@
 #include <QtCore/QSettings>
 #include <QtCore/QUrl>
 
-#include <QtGui/QCompleter>
+//qt5_migr
+#include <QtWidgets/QCompleter>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QSortFilterProxyModel>
+#include <QNetworkCookie>
+
 #include <QtGui/QFont>
 #include <QtGui/QFontMetrics>
-#include <QtGui/QHeaderView>
 #include <QtGui/QKeyEvent>
-#include <QtGui/QSortFilterProxyModel>
 
 #include <QtWebKit/QWebSettings>
 
@@ -492,7 +496,10 @@ bool CookieModel::removeRows(int row, int count, const QModelIndex &parent)
 
 void CookieModel::cookiesChanged()
 {
-    reset();
+    //qt5_migr
+    // reset();
+    beginResetModel();
+    endResetModel();
 }
 
 CookiesDialog::CookiesDialog(CookieJar *cookieJar, QWidget *parent) : QDialog(parent)
@@ -722,26 +729,44 @@ void CookiesExceptionsDialog::block()
 {
     if (domainLineEdit->text().isEmpty())
         return;
+
+    //qt5_migr
+    //m_exceptionsModel->m_blockedCookies.append(domainLineEdit->text());
+    //m_cookieJar->setBlockedCookies(m_exceptionsModel->m_blockedCookies);
+    //m_exceptionsModel->reset();
+    m_exceptionsModel->beginResetModel();
     m_exceptionsModel->m_blockedCookies.append(domainLineEdit->text());
     m_cookieJar->setBlockedCookies(m_exceptionsModel->m_blockedCookies);
-    m_exceptionsModel->reset();
+    m_exceptionsModel->endResetModel();
 }
 
 void CookiesExceptionsDialog::allow()
 {
     if (domainLineEdit->text().isEmpty())
         return;
+
+    //qt5_migr
+    //m_exceptionsModel->m_allowedCookies.append(domainLineEdit->text());
+    //m_cookieJar->setAllowedCookies(m_exceptionsModel->m_allowedCookies);
+    //m_exceptionsModel->reset();
+    m_exceptionsModel->beginResetModel();
     m_exceptionsModel->m_allowedCookies.append(domainLineEdit->text());
     m_cookieJar->setAllowedCookies(m_exceptionsModel->m_allowedCookies);
-    m_exceptionsModel->reset();
+    m_exceptionsModel->endResetModel();
 }
 
 void CookiesExceptionsDialog::allowForSession()
 {
     if (domainLineEdit->text().isEmpty())
         return;
+
+    //qt5_migr
+    //m_exceptionsModel->m_sessionCookies.append(domainLineEdit->text());
+    //m_cookieJar->setAllowForSessionCookies(m_exceptionsModel->m_sessionCookies);
+    //m_exceptionsModel->reset();
+    m_exceptionsModel->beginResetModel();
     m_exceptionsModel->m_sessionCookies.append(domainLineEdit->text());
     m_cookieJar->setAllowForSessionCookies(m_exceptionsModel->m_sessionCookies);
-    m_exceptionsModel->reset();
+    m_exceptionsModel->endResetModel();
 }
 

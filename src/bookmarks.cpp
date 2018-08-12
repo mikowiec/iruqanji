@@ -1,7 +1,8 @@
 /*
  * Copyright (C) 2008-2009 Alexei Chaloupov <alexei.chaloupov@gmail.com>
  * Copyright (C) 2007-2008 Benjamin C. Meyer <ben@meyerhome.net>
- *
+ * Copyright (C) 2018 Nikolay Kravets <nikolay.a.kravets@gmail.com>
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -51,11 +52,15 @@
 #include <QtCore/QMimeData>
 #include <QtCore/QSettings>
 #include <QtGui/QDragEnterEvent>
-#include <QtGui/QFileDialog>
-#include <QtGui/QHeaderView>
 #include <QtGui/QIcon>
-#include <QtGui/QMessageBox>
-#include <QtGui/QToolButton>
+//qt5_migr
+#include <QDrag>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QToolButton>
+//qt5_migr
+
 #include <QInputDialog>
 
 #include <QtWebKit/QWebSettings>
@@ -1373,7 +1378,7 @@ void BookmarkToolButton::mouseMoveEvent(QMouseEvent *event)
      lst << m_url;
      mimeData->setUrls( lst );
      mimeData->setText( text() );
-     mimeData->setProperty( "move", QVariant(TRUE));
+     mimeData->setProperty( "move", QVariant(true));  //qt5_migr
      drag->setMimeData(mimeData);
 
     Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
