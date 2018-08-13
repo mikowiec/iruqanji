@@ -26,4 +26,4 @@ build-*
 
 .nvimrc
 Session.vim
-_nvim-vilqy.cmd
+*.cmd
