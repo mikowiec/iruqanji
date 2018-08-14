@@ -2,6 +2,9 @@
 src/qt/.*
 temp-src
 build
+src/moc
+src/obj
+src/uic
 
 # C++ objects and libs
 
@@ -23,6 +26,7 @@ moc_*.cpp
 qrc_*.cpp
 Makefile*
 build-*
+*.stash
 
 .nvimrc
 Session.vim
